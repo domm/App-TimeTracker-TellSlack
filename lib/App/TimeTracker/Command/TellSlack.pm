@@ -79,7 +79,7 @@ __END__
 
 =head1 DESCRIPTION
 
-Tell your team members what you're doing in your slack.com chat.
+Tell your team members what you're doing via a slack.com channel.
 
 =head1 CONFIGURATION
 
@@ -118,7 +118,7 @@ none
 
 =head2 start, stop, continue
 
-After running the respective command, a message is sent to slack
+After running the respective commands, a message is sent to slack
 
 =head3 New Options
 
@@ -126,7 +126,7 @@ After running the respective command, a message is sent to slack
 
 Defaults to true, but you can disable it like this:
 
-    ~/perl/Your-Project$ tracker start --notell_slack
+    ~/perl/Secret-Project$ tracker start --notell_slack --tag watching_cat_videos
 
 to not post this action to slack.
 
