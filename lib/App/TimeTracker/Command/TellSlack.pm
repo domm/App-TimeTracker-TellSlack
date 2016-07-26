@@ -31,9 +31,12 @@ after [ 'cmd_start', 'cmd_continue' ] => sub {
 };
 
 after 'cmd_stop' => sub {
-    my $self = shift;
+    my ($self, $dont_exit) = @_;
     return unless $self->tell_slack;
     return unless $self->_current_command eq 'cmd_stop';
+    my $cfg = $self->config->{tell_slack} || {};
+    return if $dont_exit && $cfg->{ignore_stop_when_starting};
+
     my $task = App::TimeTracker::Data::Task->previous( $self->home );
     $self->_post_to_slack( stop => $task );
 };
@@ -90,11 +93,22 @@ add a hash named C<tell_slack>, containing the following keys:
 
 =head3 url
 
-The C<Webhook URL> for your L<Incoming WebHook|https://api.slack.com/incoming-webhooks>. Required
+Required.
+
+The C<Webhook URL> for your L<Incoming WebHook|https://api.slack.com/incoming-webhooks>.
 
 =head3 username
 
-The username that should be used when posting the message. Optional
+Optional.
+
+The username that should be used when posting the message.
+
+=head3 ignore_stop_when_starting
+
+Optional.
+
+If set to a true value, do not post the previous task (which has just
+been stopped) when starting a new task.
 
 =head1 NEW COMMANDS
 
